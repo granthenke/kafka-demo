@@ -1,0 +1,9 @@
+ext {
+    repos = [:]
+}
+
+repos += [
+    cloudera:"https://repository.cloudera.com/artifactory/cloudera-repos/",
+    confluent:"http://packages.confluent.io/maven/"
+]
+

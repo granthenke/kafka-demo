@@ -1,0 +1,42 @@
+buildscript { apply from: file('gradle/buildscript.gradle'), to: buildscript }
+
+apply plugin: 'com.github.ben-manes.versions'
+apply from: "$rootDir/gradle/repositories.gradle"
+apply from: "$rootDir/gradle/dependencies.gradle"
+apply from: "$rootDir/gradle/artifacts.gradle"
+apply plugin: "idea"
+apply plugin: "eclipse"
+
+dependencyUpdates {
+    revision="release"
+}
+
+repositories {
+    maven { url repos.cloudera }
+    maven { url repos.confluent }
+    mavenCentral()
+    mavenLocal()
+}
+
+dependencies {
+    compile([
+        libs.kafkaClients,
+        libs.kafkaAvroSerializer,
+        libs.log4j
+    ])
+
+    testCompile([
+        libs.testNG
+    ])
+}
+
+// Configure Testing
+test {
+    useTestNG()
+    maxParallelForks = 8
+}
+
+// Gradle Wrapper Settings
+task wrapper(type: Wrapper) {
+    gradleVersion = "2.5"
+}
